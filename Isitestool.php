@@ -109,6 +109,7 @@ class Isitestool extends CApplicationComponent {
 		if(isset($parts['fragment'])) {
 			$full_url .= '#' . $parts['fragment'];
 		}
+		$full_url .= "#quizmo-$topic_id";
 		
 		return htmlspecialchars($full_url, ENT_QUOTES, 'UTF-8');
 		
