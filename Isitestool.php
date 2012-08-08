@@ -159,8 +159,8 @@ class Isitestool extends CApplicationComponent {
 			$mergeQuery = array_merge($mergeQuery, array(
 				'topicId' => $topic_id,
 				'pageContentId' => $page_content_id,
-				'pageid' => $page_id,
-				'panel' => $page_content_id.':r'.$panelView
+				//'pageid' => $page_id,
+				//'panel' => $page_content_id.':r'.$panelView
 			));
 		}
 
