@@ -30,6 +30,45 @@ class Isitestool extends CApplicationComponent {
 
         return $decrypted_id;
     }
+	
+	/**
+	 * gets the idphoto url
+	 * the base for this url is http://isites.harvard.edu/idphoto
+	 * however, this is using a relative path for simplicity's sake
+	 * 
+	 * Expected output is something like:
+ 	 * http://isites.harvard.edu/idphoto/818044447e8a92af22de3e631390807356d22e7be7475e242b4a18d9f9340e0fc12a5a348c454dd8355b940c81eb93736d90467df8df576f523f5506dc814fd90f7a3041fc906a0f3649c7cbb0a8310ea354f47fd8cddeb2f572755b331ac3bb_50.jpg	
+	 *
+	 * @param number $huid
+	 * @return string url (relative path) for the idphoto
+	 */
+	public function getPhotoUrl($huid){
+		Yii::import('application.vendors.phpseclib.*');
+		require_once('Crypt/RC4.php');
+				
+		//$huid = '80719647';
+		//$encrypted_id = Yii::app()->getRequest()->getParam('userid');
+		//$huid = $encrypted_id;
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$ip = Yii::app()->getRequest()->getParam('remoteAddr');
+		$size = 128;
+		$ext = 'jpg';
+
+		$key = Yii::app()->params['photoKey'];
+		$randomstring = "1234567890123456789012345678901234567890123456789012345678901";
+		$rawdata = "$huid|$ip|".time()."|$randomstring";
+
+		$rc4 = new Crypt_RC4();
+		$rc4->setKey($key);
+		$data = unpack('H*', $rc4->encrypt($rawdata));
+
+		$redone = $rc4->decrypt(pack('H*', $data[1]));
+		
+		//error_log(var_export($data, 1));
+		//error_log($redone);
+		$url = "/idphoto/".$data[1]."_".$size.".jpg";
+		return $url;
+	}
 
 	/**
 	* Returns the list of permissions as an array
