@@ -42,16 +42,11 @@ class Isitestool extends CApplicationComponent {
 	 * @param number $huid
 	 * @return string url (relative path) for the idphoto
 	 */
-	public function getPhotoUrl($huid){
+	public function getPhotoUrl($huid, $size=100){
 		Yii::import('application.vendors.phpseclib.*');
 		require_once('Crypt/RC4.php');
 				
-		//$huid = '80719647';
-		//$encrypted_id = Yii::app()->getRequest()->getParam('userid');
-		//$huid = $encrypted_id;
-		$ip = $_SERVER['REMOTE_ADDR'];
 		$ip = Yii::app()->getRequest()->getParam('remoteAddr');
-		$size = 128;
 		$ext = 'jpg';
 
 		$key = Yii::app()->params['photoKey'];
